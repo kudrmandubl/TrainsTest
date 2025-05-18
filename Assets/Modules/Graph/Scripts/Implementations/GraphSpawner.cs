@@ -24,27 +24,37 @@ public class GraphSpawner : IGraphSpawner
     {
         List<NodeView> nodes = new List<NodeView>();
         nodes.Capacity = _config.Nodes.Length;
-        foreach (var node in _config.Nodes)
+        _graph.Nodes.Capacity = nodes.Capacity;
+        int id = 0;
+        foreach (var nodeData in _config.Nodes)
         {
-            Vector3 position = new Vector3(node.Position.x, 0f, node.Position.y);
-            NodeView nodeView = GameObject.Instantiate(_config.NodeViewPrefabs[node.NodeType], position, Quaternion.identity, _nodesContainer.Transform);
+            Vector3 position = new Vector3(nodeData.Position.x, 0f, nodeData.Position.y);
+            NodeView nodeView = GameObject.Instantiate(_config.NodeViewPrefabs[nodeData.NodeType], position, Quaternion.identity, _nodesContainer.Transform);
             nodes.Add(nodeView);
+
+            INode node = new Node(id, nodeData.NodeType, nodeData.Multiplier);
+            _graph.AddNode(node);
+            id++;
         }
 
-        foreach (var edge in _config.Edges)
+        _graph.Edge.Capacity = _config.Edges.Length;
+        foreach (var edgeData in _config.Edges)
         {
-            Vector3 position = (_config.Nodes[edge.NodeIdA].Position + _config.Nodes[edge.NodeIdB].Position) * 0.5f;
+            Vector3 position = (_config.Nodes[edgeData.NodeIdA].Position + _config.Nodes[edgeData.NodeIdB].Position) * 0.5f;
             position.z = position.y;
             position.y = 0f;
             EdgeView edgeView = GameObject.Instantiate(_config.EdgeViewPrefabs, position, Quaternion.identity, _edgesContainer.Transform);
 
-            Vector3 lookAtPosition = _config.Nodes[edge.NodeIdA].Position;
+            Vector3 lookAtPosition = _config.Nodes[edgeData.NodeIdA].Position;
             lookAtPosition.z = lookAtPosition.y;
             lookAtPosition.y = 0f;
             edgeView.Transform.LookAt(lookAtPosition);
 
-            float distance = (_config.Nodes[edge.NodeIdB].Position - _config.Nodes[edge.NodeIdA].Position).magnitude;
+            float distance = (_config.Nodes[edgeData.NodeIdB].Position - _config.Nodes[edgeData.NodeIdA].Position).magnitude;
             edgeView.SetShape(distance / EdgeView.ModelScale);
+
+            IEdge edge = new Edge(_graph.Nodes[edgeData.NodeIdA], _graph.Nodes[edgeData.NodeIdB], edgeData.Distance);
+            _graph.AddEdge(edge);
         }
     }
 }

@@ -2,7 +2,9 @@ using System.Collections.Generic;
 
 public interface IGraph
 {
-    IEnumerable<INode> Nodes { get; }
-    IEnumerable<IEdge> Edge { get; }
+    List<INode> Nodes { get; }
+    List<IEdge> Edge { get; }
+    void AddNode(INode node);
+    void AddEdge(IEdge edge);
     IEnumerable<IEdge> GetEdgesFrom(INode node);
 }

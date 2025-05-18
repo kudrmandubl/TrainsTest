@@ -6,8 +6,8 @@ public class Graph : IGraph
     private readonly List<INode> _nodes;
     private readonly List<IEdge> _edges;
 
-    public IEnumerable<INode> Nodes => _nodes;
-    public IEnumerable<IEdge> Edge => _edges;
+    public List<INode> Nodes => _nodes;
+    public List<IEdge> Edge => _edges;
 
     public Graph()
     {
