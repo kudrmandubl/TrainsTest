@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482bd7a1bd890d242be08746fcf62212, type: 3}
+  m_Name: GraphConfig
+  m_EditorClassIdentifier: 
+  _nodes:
+  - _nodeType: 0
+    _multiplier: 5
+    _position: {x: -4, y: 4}
+  - _nodeType: 0
+    _multiplier: 2
+    _position: {x: 1, y: 0}
+  - _nodeType: 0
+    _multiplier: 1
+    _position: {x: 1, y: -3}
+  - _nodeType: 1
+    _multiplier: 0.2
+    _position: {x: 4, y: 3.5}
+  - _nodeType: 1
+    _multiplier: 1
+    _position: {x: -3, y: -4}
+  - _nodeType: 1
+    _multiplier: 0.9
+    _position: {x: 0, y: -4.1}
+  - _nodeType: 1
+    _multiplier: 0.5
+    _position: {x: 2, y: -4.2}
+  - _nodeType: 2
+    _multiplier: 0
+    _position: {x: -2, y: 1}
+  - _nodeType: 2
+    _multiplier: 0
+    _position: {x: 0.5, y: 1.5}
+  - _nodeType: 2
+    _multiplier: 0
+    _position: {x: 1.8, y: -3.1}
+  _edges:
+  - _nodeIdA: 0
+    _nodeIdB: 7
+    _distance: 10
+  - _nodeIdA: 7
+    _nodeIdB: 8
+    _distance: 20
+  - _nodeIdA: 8
+    _nodeIdB: 3
+    _distance: 40
+  - _nodeIdA: 7
+    _nodeIdB: 4
+    _distance: 50
+  - _nodeIdA: 3
+    _nodeIdB: 1
+    _distance: 50
+  - _nodeIdA: 1
+    _nodeIdB: 2
+    _distance: 10
+  - _nodeIdA: 1
+    _nodeIdB: 9
+    _distance: 10
+  - _nodeIdA: 2
+    _nodeIdB: 9
+    _distance: 20
+  - _nodeIdA: 4
+    _nodeIdB: 2
+    _distance: 10
+  - _nodeIdA: 2
+    _nodeIdB: 5
+    _distance: 10
+  - _nodeIdA: 9
+    _nodeIdB: 6
+    _distance: 10
+  _nodeViews:
+  - _nodeType: 0
+    _nodeViewPreafab: {fileID: 4043266250156081113, guid: 0248496a5beaceb4083269f983185647, type: 3}
+  - _nodeType: 1
+    _nodeViewPreafab: {fileID: 626736139305909628, guid: bbfc04ad70f94db41b29eb93df4b48ca, type: 3}
+  - _nodeType: 2
+    _nodeViewPreafab: {fileID: 8376537259432994044, guid: 576bb19d590619e4782ab650ef72c155, type: 3}
+  _edgeViewPrefabs: {fileID: 61429627285184341, guid: 0291dc0b3bd5eef42b7c2704d315f98d, type: 3}
