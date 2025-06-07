@@ -1,4 +1,5 @@
 using Modules.Graph.Interfaces;
+using Modules.Minerals.Interfaces;
 using Modules.Trains.Interfaces;
 
 namespace Modules.Core
@@ -8,11 +9,13 @@ namespace Modules.Core
 
         public GameController(IGraphSpawner graphSpawner,
             ITrainsSpawner trainsSpawner,
-            ITrainsLogic trainsLogic)
+            ITrainsLogic trainsLogic,
+            IMineralManager mineralManager)
         {
             graphSpawner.SpawnGraph();
             trainsSpawner.SpawnTrains();
             trainsLogic.StartMoving();
+            mineralManager.SpawnUI();
         }
     }
 }

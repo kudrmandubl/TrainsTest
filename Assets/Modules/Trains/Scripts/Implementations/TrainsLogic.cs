@@ -84,7 +84,7 @@ namespace Modules.Trains.Implementations
 
         private IEnumerable<IEdge> GetNextRoute(ITrain train)
         {
-            NodeType targetNodeType = train.Minerals.Value > 0 ? NodeType.Base : NodeType.Mine;
+            NodeType targetNodeType = train.Minerals.Amount.Value > 0 ? NodeType.Base : NodeType.Mine;
             if (!_graph.TypedNodes.TryGetValue(targetNodeType, out var possibleNodes))
             {
                 Debug.LogError($"Ќет набора возможных нодов дл€ типа {targetNodeType}");
@@ -146,7 +146,7 @@ namespace Modules.Trains.Implementations
             }
             else if (node.Type == NodeType.Base)
             {
-                return train.Minerals.Value * node.Multiplier;
+                return train.Minerals.Amount.Value * node.Multiplier;
             }
 
             Debug.LogError($"Ќе возможно получить врем€ обработки дл€ ноды {JsonUtility.ToJson(node)}");
@@ -171,7 +171,7 @@ namespace Modules.Trains.Implementations
             }
             else if (train.CurrentNode.Type == NodeType.Base)
             {
-                train.Minerals.Add(-train.Minerals.Value);
+                train.Minerals.Add(-train.Minerals.Amount.Value);
                 _mineralManager.AddMinerals(nodeResult);
             }
 

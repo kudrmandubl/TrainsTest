@@ -1,19 +1,25 @@
+using Modules.Common;
 using Modules.Minerals.Interfaces;
 
 namespace Modules.Minerals.Implementations
 {
     public class Mineral : IMineral
     {
-        public double Value { get; private set; }
+        public ReactiveProperty<double> Amount { get; private set; }
+
+        public Mineral()
+        {
+            Amount = new ReactiveProperty<double>();
+        }
 
         public Mineral(double initialValue = 0)
         {
-            Value = initialValue;
+            Amount.Value = initialValue;
         }
 
         public void Add(double amount)
         {
-            Value += amount;
+            Amount.Value += amount;
         }
     }
 }

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _graphConfig: {fileID: 11400000, guid: 68a424562c0896440922ed349705f383, type: 2}
   _trainsConfig: {fileID: 11400000, guid: 01f6c9290fa31134d8ceae0a6997f6ec, type: 2}
+  _mineralsConfig: {fileID: 11400000, guid: e08878652390f2945958897d6359b0ba, type: 2}

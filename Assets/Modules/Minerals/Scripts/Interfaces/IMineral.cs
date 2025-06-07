@@ -1,9 +1,10 @@
+using Modules.Common;
 
 namespace Modules.Minerals.Interfaces
 {
     public interface IMineral
     {
-        double Value { get; }
+        ReactiveProperty<double> Amount { get; }
         void Add(double amount);
     }
 }
