@@ -85,7 +85,7 @@ namespace Modules.Graph.Implementations
                     if (!unvisited.Contains(neighbor))
                         continue;
 
-                    float tentativeDistance = distances[currentNode] + edge.Length;
+                    float tentativeDistance = distances[currentNode] + edge.Distance;
                     if (tentativeDistance < distances[neighbor])
                     {
                         distances[neighbor] = tentativeDistance;

@@ -12,5 +12,7 @@ namespace Modules.Graph.Interfaces
         NodeType Type { get; }
         float Multiplier { get; }
         Vector3 Position { get; }
+
+        void UpdateMultiplier(float multiplier);
     }
 }

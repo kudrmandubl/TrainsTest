@@ -6,13 +6,18 @@ namespace Modules.Graph.Implementations
     {
         public INode NodeA { get; }
         public INode NodeB { get; }
-        public float Length { get; }
+        public float Distance { get; private set;  }
 
-        public Edge(INode nodeA, INode nodeB, float length)
+        public Edge(INode nodeA, INode nodeB, float distance)
         {
             NodeA = nodeA;
             NodeB = nodeB;
-            Length = length;
+            Distance = distance;
+        }
+
+        public void UpdateDistance(float distance)
+        {
+            Distance = distance;
         }
 
         public INode GetNeighbor(INode sourceNode)

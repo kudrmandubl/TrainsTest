@@ -34,11 +34,16 @@ namespace Modules.Graph.Implementations
             foreach (var nodeData in _config.Nodes)
             {
                 Vector3 position = new Vector3(nodeData.Position.x, 0f, nodeData.Position.y);
-                NodeView nodeView = GameObject.Instantiate(_config.NodeViewPrefabs[nodeData.NodeType], position, Quaternion.identity, _nodesContainer.Transform);
-                nodes.Add(nodeView);
 
                 INode node = new Node(id, nodeData.NodeType, nodeData.Multiplier, position);
                 _graph.AddNode(node);
+
+                NodeView nodeView = GameObject.Instantiate(_config.NodeViewPrefabs[nodeData.NodeType], position, Quaternion.identity, _nodesContainer.Transform);
+                nodes.Add(nodeView);
+
+                nodeView.UpdateMultiplier(nodeData.Multiplier);
+                nodeView.Multiplier.OnValueChanged += node.UpdateMultiplier;
+
                 id++;
             }
 
@@ -60,6 +65,9 @@ namespace Modules.Graph.Implementations
 
                 IEdge edge = new Edge(_graph.Nodes[edgeData.NodeIdA], _graph.Nodes[edgeData.NodeIdB], edgeData.Distance);
                 _graph.AddEdge(edge);
+
+                edgeView.UpdateDistance(edgeData.Distance);
+                edgeView.Distance.OnValueChanged += edge.UpdateDistance;
             }
         }
     }

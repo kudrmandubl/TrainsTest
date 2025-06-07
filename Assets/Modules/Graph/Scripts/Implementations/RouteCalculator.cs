@@ -48,7 +48,7 @@ namespace Modules.Graph.Implementations
                         continue;
                     }
 
-                    float tentativeDistance = distances[current] + path.Length;
+                    float tentativeDistance = distances[current] + path.Distance;
 
                     if (tentativeDistance < distances[neighbor])
                     {

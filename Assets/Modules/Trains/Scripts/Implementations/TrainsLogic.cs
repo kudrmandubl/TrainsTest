@@ -76,7 +76,7 @@ namespace Modules.Trains.Implementations
 
         private void TrainMovement(ITrain train)
         {
-            float duration = train.GetCurrentEdge().Length / train.MoveSpeed.Value;
+            float duration = train.GetCurrentEdge().Distance / train.MoveSpeed.Value;
             DOTween.To(() => train.CurrentNode.Position, x => train.Position.Value = x, train.NextNode.Position, duration)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => MoveToNextNode(train));
@@ -101,7 +101,7 @@ namespace Modules.Trains.Implementations
                 float moveDuration = 0;
                 foreach (var edge in route)
                 {
-                    moveDuration += edge.Length / train.MoveSpeed.Value;
+                    moveDuration += edge.Distance / train.MoveSpeed.Value;
                 }
 
                 float nodeProcessDuration = GetNodeDuration(node, train); 

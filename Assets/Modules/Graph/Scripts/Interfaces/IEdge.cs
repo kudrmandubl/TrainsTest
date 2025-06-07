@@ -5,8 +5,9 @@ namespace Modules.Graph.Interfaces
     {
         INode NodeA { get; }
         INode NodeB { get; }
-        float Length { get; }
+        float Distance { get; }
 
+        void UpdateDistance(float legnth);
         INode GetNeighbor(INode sourceNode);
     }
 }

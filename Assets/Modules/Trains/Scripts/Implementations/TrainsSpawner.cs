@@ -45,7 +45,9 @@ namespace Modules.Trains.Implementations
 
                 TrainView trainView = GameObject.Instantiate(_config.TrainViewPrefab, position, Quaternion.identity, _trainsContainer.Transform);
 
+                trainView.UpdateMoveSpeed(trainData.MoveSpeed); 
                 trainView.MoveSpeed.OnValueChanged += train.UpdateMoveSpeed;
+                trainView.UpdateMiningTimeSeconds(trainData.MiningTimeSeconds);
                 trainView.MiningTimeSeconds.OnValueChanged += train.UpdateMiningTimeSeconds;
 
                 train.Position.OnValueChanged += trainView.UpdatePosition;
