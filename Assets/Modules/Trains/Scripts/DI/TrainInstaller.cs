@@ -14,6 +14,8 @@ namespace Modules.Trains.DI
         {
             Container.BindInstance<TrainsContainer>(_trainsContainer).AsSingle();
 
+            Container.Bind<ITrain>().To<Train>().AsTransient();
+            Container.Bind<IFactory<ITrain>>().To<TrainFactory>().AsSingle();
             Container.Bind<ITrainsSpawner>().To<TrainsSpawner>().AsSingle();
             Container.Bind<ITrainsLogic>().To<TrainsLogic>().AsSingle();
         }

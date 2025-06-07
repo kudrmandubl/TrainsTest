@@ -1,6 +1,6 @@
-using UnityEngine;
+using Modules.Minerals.Interfaces;
 
-namespace Modules.Minerals
+namespace Modules.Minerals.Implementations
 {
     public class MineralManager : IMineralManager
     {
@@ -14,11 +14,6 @@ namespace Modules.Minerals
         public void AddMinerals(double amount)
         {
             Minerals.Add(amount);
-        }
-
-        public void ApplyMultiplier(double factor)
-        {
-            Minerals.Multiply(factor);
         }
     }
 }

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using Modules.Common;
 using Modules.Graph.Interfaces;
-using Modules.Minerals;
+using Modules.Minerals.Interfaces;
 using Modules.Trains.Interfaces;
 using UnityEngine;
 
@@ -16,20 +15,16 @@ namespace Modules.Trains.Implementations
         public ReactiveProperty<float> MoveSpeed { get; }
         public ReactiveProperty<float> MiningTimeSeconds { get; }
         public ReactiveProperty<Vector3> Position { get; }
-        public Vector3 Destination { get; private set; }
         public INode CurrentNode { get; private set; }
         public INode NextNode { get; private set; }
         public IMineral Minerals { get; set; }
 
-        public Train(float moveSpeed, float miningTimeSeconds, Vector3 position)
+        public Train(IMineral mineral)
         {
             MoveSpeed = new ReactiveProperty<float>();
-            MoveSpeed.Value = moveSpeed;
             MiningTimeSeconds = new ReactiveProperty<float>();
-            MiningTimeSeconds.Value = miningTimeSeconds;
             Position = new ReactiveProperty<Vector3>();
-            Position.Value = position;
-            Minerals = new Mineral();
+            Minerals = mineral;
         }
 
         public void UpdateMoveSpeed(float moveSpeed)
@@ -42,9 +37,9 @@ namespace Modules.Trains.Implementations
             MiningTimeSeconds.Value = miningTimeSeconds;
         }
 
-        public void SetDestination(Vector3 destination)
+        public void UpdatePosition(Vector3 position)
         {
-            Destination = destination;
+            Position.Value = position;
         }
 
         public void SetCurrentNode(INode currentNode)
@@ -70,7 +65,7 @@ namespace Modules.Trains.Implementations
 
         public void MoveToNextEdge()
         {
-            CurrentNode = NextNode;
+            SetCurrentNode(NextNode);
             _currentSegmentIndex++;
         }
 
@@ -79,34 +74,9 @@ namespace Modules.Trains.Implementations
             return _route[_currentSegmentIndex];
         }
 
-        public void Start()
+        public bool CheckRouteFinished()
         {
-            if (_route == null || !_route.Any())
-            {
-                Debug.LogError("Маршрут не назначен");
-                return;
-            }
-            // Начинаем движение по маршруту
-            MoveAlongRoute();
-        }
-
-        public void Stop()
-        {
-            // Остановка поезда
-            UnityEngine.Debug.Log("Поезд остановлен");
-        }
-
-        private void MoveAlongRoute()
-        {
-            // Здесь логика движения по маршруту
-            for (int i = _currentSegmentIndex; i < _route.Count; i++)
-            {
-                var segment = _route[i];
-                // Имитация движения, например, через задержку или анимацию
-                UnityEngine.Debug.Log($"Проход по сегменту: {segment.NodeA.Id} -> {segment.NodeB.Id}");
-                _currentSegmentIndex = i + 1;
-            }
-            UnityEngine.Debug.Log("Маршрут завершен");
+            return _currentSegmentIndex >= _route.Count;
         }
     }
 }

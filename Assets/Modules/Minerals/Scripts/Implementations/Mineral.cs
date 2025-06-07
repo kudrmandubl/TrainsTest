@@ -1,5 +1,6 @@
+using Modules.Minerals.Interfaces;
 
-namespace Modules.Minerals
+namespace Modules.Minerals.Implementations
 {
     public class Mineral : IMineral
     {
@@ -13,11 +14,6 @@ namespace Modules.Minerals
         public void Add(double amount)
         {
             Value += amount;
-        }
-
-        public void Multiply(double factor)
-        {
-            Value *= factor;
         }
     }
 }

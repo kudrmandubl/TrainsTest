@@ -1,11 +1,10 @@
 
 
-namespace Modules.Minerals
+namespace Modules.Minerals.Interfaces
 {
     public interface IMineralManager
     {
         IMineral Minerals { get; }
         void AddMinerals(double amount);
-        void ApplyMultiplier(double factor);
     }
 }

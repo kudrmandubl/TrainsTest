@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
-using Modules.Common.Interfaces;
 using Modules.Graph.Data;
 using Modules.Graph.Interfaces;
+using Modules.Minerals.Interfaces;
 using Modules.Trains.Interfaces;
 using UnityEngine;
 
@@ -14,21 +13,21 @@ namespace Modules.Trains.Implementations
         private const float MineralsUnloadingDuration = 0f;
         private const double MineralsFromMine = 1;
 
-        private IMonoBehaviourCycle _monoBehaviourCycle;
         private ITrainsSpawner _trainsSpawner;
         private IGraph _graph;
+        private IMineralManager _mineralManager;
 
         private RouteSelectionData _tempRouteData;
 
-        public TrainsLogic(IMonoBehaviourCycle monoBehaviourCycle, ITrainsSpawner trainsSpawner, IGraph graph)
+        public TrainsLogic(ITrainsSpawner trainsSpawner, 
+            IGraph graph,
+            IMineralManager mineralManager)
         {
-            _monoBehaviourCycle = monoBehaviourCycle;
             _trainsSpawner = trainsSpawner;
             _graph = graph;
+            _mineralManager = mineralManager;
 
             _tempRouteData = new RouteSelectionData();
-
-            monoBehaviourCycle.SubscribeToUpdate(MoveTrains);
         }
 
         public void StartMoving()
@@ -36,7 +35,6 @@ namespace Modules.Trains.Implementations
             foreach (var train in _trainsSpawner.Trains)
             {
                 StartMoving(train);
-                return;
             }
         }
 
@@ -50,6 +48,13 @@ namespace Modules.Trains.Implementations
             }
 
             train.AssignRoute(route);
+            // на случай, если поезд заспаунился на точке, в которою ему выгоднее всего ехать
+            if (train.CheckRouteFinished())
+            {
+                ProcessNode(train);
+                return;
+            }
+
             train.SetNextNode(train.GetNextNode());
 
             TrainMovement(train);
@@ -58,6 +63,12 @@ namespace Modules.Trains.Implementations
         private void MoveToNextNode(ITrain train)
         {
             train.MoveToNextEdge();
+            if (train.CheckRouteFinished()) 
+            {
+                ProcessNode(train);
+                return;
+            }
+
             train.SetNextNode(train.GetNextNode());
 
             TrainMovement(train);
@@ -142,9 +153,29 @@ namespace Modules.Trains.Implementations
             return 0;
         }
 
-        private void MoveTrains(float deltaTime)
+        private void ProcessNode(ITrain train)
         {
+            float duration = GetNodeDuration(train.CurrentNode, train);
+            float waiter = 0;
+            DOTween.To(() => waiter, x => waiter = x, 1, duration)
+                .OnComplete(() => FinishNodeProcess(train));
+        }
 
+        private void FinishNodeProcess(ITrain train)
+        {
+            double nodeResult = GetNodeResult(train.CurrentNode, train);
+            
+            if (train.CurrentNode.Type == NodeType.Mine)
+            {
+                train.Minerals.Add(nodeResult);
+            }
+            else if (train.CurrentNode.Type == NodeType.Base)
+            {
+                train.Minerals.Add(-train.Minerals.Value);
+                _mineralManager.AddMinerals(nodeResult);
+            }
+
+            StartMoving(train);
         }
     }
 }
