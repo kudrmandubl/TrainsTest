@@ -1,6 +1,11 @@
-public interface IMineralManager
+
+
+namespace Modules.Minerals
 {
-    IMineral Minerals { get; }
-    void AddMinerals(float amount);
-    void ApplyMultiplier(float factor);
+    public interface IMineralManager
+    {
+        IMineral Minerals { get; }
+        void AddMinerals(double amount);
+        void ApplyMultiplier(double factor);
+    }
 }

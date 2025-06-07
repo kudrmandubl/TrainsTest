@@ -1,9 +1,12 @@
 using Zenject;
 
-public class GameInstaller : MonoInstaller
+namespace Modules.Core
 {
-    public override void InstallBindings()
+    public class GameInstaller : MonoInstaller
     {
-        Container.Bind<GameController>().AsSingle().NonLazy();
+        public override void InstallBindings()
+        {
+            Container.Bind<GameController>().AsSingle().NonLazy();
+        }
     }
 }

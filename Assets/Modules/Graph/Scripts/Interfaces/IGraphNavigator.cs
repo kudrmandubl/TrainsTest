@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
-public interface IGraphNavigator
+namespace Modules.Graph.Interfaces
 {
-    IEnumerable<IEdge> FindOptimalRoute(INode start, INode target);
+    public interface IGraphNavigator
+    {
+        IEnumerable<IEdge> FindOptimalRoute(INode start, INode target);
+    }
 }

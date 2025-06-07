@@ -1,4 +1,8 @@
-public interface IGraphSpawner
+
+namespace Modules.Graph.Interfaces
 {
-    void SpawnGraph();
+    public interface IGraphSpawner
+    {
+        void SpawnGraph();
+    }
 }

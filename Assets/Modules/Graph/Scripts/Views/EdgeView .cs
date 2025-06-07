@@ -1,11 +1,15 @@
+using Modules.Common;
 using UnityEngine;
 
-public class EdgeView : CashedMonoBehaviour
+namespace Modules.Graph.Views
 {
-    public const float ModelScale = 0.1f;
-
-    public void SetShape(float distance)
+    public class EdgeView : CashedMonoBehaviour
     {
-        Transform.localScale = new Vector3(1f, 1f, distance);
+        public const float ModelScale = 0.1f;
+
+        public void SetShape(float distance)
+        {
+            Transform.localScale = new Vector3(1f, 1f, distance);
+        }
     }
 }

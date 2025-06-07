@@ -1,6 +1,12 @@
-public interface IEdge
+
+namespace Modules.Graph.Interfaces
 {
-    INode NodeA { get; }
-    INode NodeB { get; }
-    float Length { get; }
+    public interface IEdge
+    {
+        INode NodeA { get; }
+        INode NodeB { get; }
+        float Length { get; }
+
+        INode GetNeighbor(INode sourceNode);
+    }
 }

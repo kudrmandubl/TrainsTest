@@ -1,13 +1,23 @@
-public class Edge : IEdge
-{
-    public INode NodeA { get; }
-    public INode NodeB { get; }
-    public float Length { get; }
+using Modules.Graph.Interfaces;
 
-    public Edge(INode nodeA, INode nodeB, float length)
+namespace Modules.Graph.Implementations
+{
+    public class Edge : IEdge
     {
-        NodeA = nodeA;
-        NodeB = nodeB;
-        Length = length;
+        public INode NodeA { get; }
+        public INode NodeB { get; }
+        public float Length { get; }
+
+        public Edge(INode nodeA, INode nodeB, float length)
+        {
+            NodeA = nodeA;
+            NodeB = nodeB;
+            Length = length;
+        }
+
+        public INode GetNeighbor(INode sourceNode)
+        {
+            return NodeA == sourceNode ? NodeB : NodeB == sourceNode ? NodeA : null;
+        }
     }
 }

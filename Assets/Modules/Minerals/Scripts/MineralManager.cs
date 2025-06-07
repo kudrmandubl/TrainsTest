@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class MineralManager : IMineralManager
+namespace Modules.Minerals
 {
-    public IMineral Minerals { get; private set; }
-
-    public MineralManager()
+    public class MineralManager : IMineralManager
     {
-        Minerals = new Mineral();
-    }
+        public IMineral Minerals { get; private set; }
 
-    public void AddMinerals(float amount)
-    {
-        Minerals.Add(amount);
-    }
+        public MineralManager()
+        {
+            Minerals = new Mineral();
+        }
 
-    public void ApplyMultiplier(float factor)
-    {
-        Minerals.Multiply(factor);
+        public void AddMinerals(double amount)
+        {
+            Minerals.Add(amount);
+        }
+
+        public void ApplyMultiplier(double factor)
+        {
+            Minerals.Multiply(factor);
+        }
     }
 }

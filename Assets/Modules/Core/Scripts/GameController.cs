@@ -1,13 +1,18 @@
-using Zenject;
-using System.Collections.Generic;
+using Modules.Graph.Interfaces;
+using Modules.Trains.Interfaces;
 
-public class GameController
+namespace Modules.Core
 {
-    private IGraphSpawner _graphSpawner;
-
-    public GameController(IGraphSpawner graphSpawner)
+    public class GameController
     {
-        _graphSpawner = graphSpawner;
-        graphSpawner.SpawnGraph();
+
+        public GameController(IGraphSpawner graphSpawner,
+            ITrainsSpawner trainsSpawner,
+            ITrainsLogic trainsLogic)
+        {
+            graphSpawner.SpawnGraph();
+            trainsSpawner.SpawnTrains();
+            trainsLogic.StartMoving();
+        }
     }
 }

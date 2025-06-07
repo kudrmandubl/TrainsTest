@@ -1,13 +1,20 @@
+using Modules.Graph.Configs;
+using Modules.Trains.Configs;
 using UnityEngine;
 using Zenject;
 
-[CreateAssetMenu(fileName = "GameSettings", menuName = "Installers/GameSettings")]
-public class GameSettings : ScriptableObjectInstaller
+namespace Modules.Core
 {
-    public GraphConfig GraphConfig;
-
-    public override void InstallBindings()
+    [CreateAssetMenu(fileName = "GameSettings", menuName = "Installers/GameSettings")]
+    public class GameSettings : ScriptableObjectInstaller
     {
-        Container.BindInstances(GraphConfig);
+        [SerializeField] private GraphConfig _graphConfig;
+        [SerializeField] private TrainsConfig _trainsConfig;
+
+        public override void InstallBindings()
+        {
+            Container.BindInstances(_graphConfig);
+            Container.BindInstances(_trainsConfig);
+        }
     }
 }

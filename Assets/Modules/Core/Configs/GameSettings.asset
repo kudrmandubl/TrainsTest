@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cefa59195eeb1b42a4f2f5bcb072cf2, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  GraphConfig: {fileID: 11400000, guid: 68a424562c0896440922ed349705f383, type: 2}
+  _graphConfig: {fileID: 11400000, guid: 68a424562c0896440922ed349705f383, type: 2}
+  _trainsConfig: {fileID: 11400000, guid: 01f6c9290fa31134d8ceae0a6997f6ec, type: 2}

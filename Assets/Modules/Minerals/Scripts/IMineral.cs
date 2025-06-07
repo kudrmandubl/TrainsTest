@@ -1,6 +1,10 @@
-public interface IMineral
+
+namespace Modules.Minerals
 {
-    float Quantity { get; }
-    void Add(float amount);
-    void Multiply(float factor);
+    public interface IMineral
+    {
+        double Value { get; }
+        void Add(double amount);
+        void Multiply(double factor);
+    }
 }

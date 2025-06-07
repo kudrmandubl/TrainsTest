@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class CashedMonoBehaviour : MonoBehaviour
+namespace Modules.Common
 {
-    private Transform _transform;
-
-    public Transform Transform
+    public class CashedMonoBehaviour : MonoBehaviour
     {
-        get
-        {
-            if (!_transform)
-            {
-                _transform = transform;
-            }
+        private Transform _transform;
 
-            return _transform;
+        public Transform Transform
+        {
+            get
+            {
+                if (!_transform)
+                {
+                    _transform = transform;
+                }
+
+                return _transform;
+            }
         }
     }
 }

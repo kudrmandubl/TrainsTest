@@ -1,10 +1,16 @@
 using System.Collections.Generic;
+using Modules.Graph.Data;
 
-public interface IGraph
+namespace Modules.Graph.Interfaces
 {
-    List<INode> Nodes { get; }
-    List<IEdge> Edge { get; }
-    void AddNode(INode node);
-    void AddEdge(IEdge edge);
-    IEnumerable<IEdge> GetEdgesFrom(INode node);
+    public interface IGraph
+    {
+        List<INode> Nodes { get; }
+        Dictionary<NodeType, List<INode>> TypedNodes { get; }
+        List<IEdge> Edge { get; }
+        void AddNode(INode node);
+        void AddEdge(IEdge edge);
+        IEnumerable<IEdge> GetEdgesFrom(INode node);
+        IEnumerable<IEdge> GetRoute(INode startNode, INode endNode);
+    }
 }

@@ -1,22 +1,25 @@
+using Modules.Graph.Implementations;
+using Modules.Graph.Interfaces;
+using Modules.Graph.Views;
 using UnityEngine;
 using Zenject;
 
-public class GraphInstaller : MonoInstaller
+namespace Modules.Graph.DI
 {
-    [SerializeField] private NodesContainer _nodesContainer;
-    [SerializeField] private EdgesContainer _edgesContainer;
-
-    public override void InstallBindings()
+    public class GraphInstaller : MonoInstaller
     {
-        GraphView graphView = GameObjectExtensions.CreateInstance<GraphView>();
-        Container.BindInstance<GraphView>(graphView).AsSingle();
+        [SerializeField] private NodesContainer _nodesContainer;
+        [SerializeField] private EdgesContainer _edgesContainer;
 
-        Container.Bind<IGraph>().To<Graph>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.Bind<IGraph>().To<Graph.Implementations.Graph>().AsSingle();
 
-        Container.BindInstance<NodesContainer>(_nodesContainer).AsSingle();
-        Container.BindInstance<EdgesContainer>(_edgesContainer).AsSingle();
+            Container.BindInstance<NodesContainer>(_nodesContainer).AsSingle();
+            Container.BindInstance<EdgesContainer>(_edgesContainer).AsSingle();
 
-        Container.Bind<IGraphSpawner>().To<GraphSpawner>().AsSingle();
+            Container.Bind<IGraphSpawner>().To<GraphSpawner>().AsSingle();
+        }
+
     }
-
 }

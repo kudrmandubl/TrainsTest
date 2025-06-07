@@ -1,10 +1,16 @@
+using Modules.Graph.Data;
+using UnityEngine;
 
-/// <summary>
-/// Èםעונפויס גונרטםû דנאפא
-/// </summary>
-public interface INode
+namespace Modules.Graph.Interfaces
 {
-    int Id { get; }
-    NodeType Type { get; }
-    float MineralMultiplier { get; }
+    /// <summary>
+    /// Èםעונפויס גונרטםû דנאפא
+    /// </summary>
+    public interface INode
+    {
+        int Id { get; }
+        NodeType Type { get; }
+        float Multiplier { get; }
+        Vector3 Position { get; }
+    }
 }

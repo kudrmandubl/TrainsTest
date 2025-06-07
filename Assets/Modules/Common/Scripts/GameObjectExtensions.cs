@@ -1,11 +1,13 @@
-using System.Xml.Linq;
 using UnityEngine;
 
-public static class GameObjectExtensions
+namespace Modules.Common
 {
-    public static T CreateInstance<T>() where T : Component
+    public static class GameObjectExtensions
     {
-        var go = new GameObject(typeof(T).ToString());
-        return go.AddComponent<T>();
+        public static T CreateInstance<T>() where T : Component
+        {
+            var go = new GameObject(typeof(T).ToString());
+            return go.AddComponent<T>();
+        }
     }
 }

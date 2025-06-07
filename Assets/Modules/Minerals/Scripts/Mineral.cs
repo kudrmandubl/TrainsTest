@@ -1,20 +1,23 @@
 
-public class Mineral : IMineral
+namespace Modules.Minerals
 {
-    public float Quantity { get; private set; }
-
-    public Mineral(float initialQuantity = 0)
+    public class Mineral : IMineral
     {
-        Quantity = initialQuantity;
-    }
+        public double Value { get; private set; }
 
-    public void Add(float amount)
-    {
-        Quantity += amount;
-    }
+        public Mineral(double initialValue = 0)
+        {
+            Value = initialValue;
+        }
 
-    public void Multiply(float factor)
-    {
-        Quantity *= factor;
+        public void Add(double amount)
+        {
+            Value += amount;
+        }
+
+        public void Multiply(double factor)
+        {
+            Value *= factor;
+        }
     }
 }

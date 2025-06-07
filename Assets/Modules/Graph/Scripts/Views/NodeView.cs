@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NodeView : MonoBehaviour
+namespace Modules.Graph.Views
 {
-
+    public class NodeView : MonoBehaviour { }
 }

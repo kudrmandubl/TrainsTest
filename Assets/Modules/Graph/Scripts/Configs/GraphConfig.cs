@@ -1,32 +1,37 @@
 using System.Collections.Generic;
+using Modules.Graph.Data;
+using Modules.Graph.Views;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GraphConfig", menuName = "Config/GraphConfig")]
-public class GraphConfig : ScriptableObject
+namespace Modules.Graph.Configs
 {
-    [SerializeField] private NodeData[] _nodes;
-    [SerializeField] private EdgeData[] _edges;
-    [SerializeField] private NodeViewData[] _nodeViews;
-    [SerializeField] private EdgeView _edgeViewPrefabs;
-
-    private Dictionary<NodeType, NodeView> _nodeViewPrefabs;
-
-    public NodeData[] Nodes => _nodes;
-    public EdgeData[] Edges => _edges;
-    public EdgeView EdgeViewPrefabs => _edgeViewPrefabs;
-    public Dictionary<NodeType, NodeView> NodeViewPrefabs
+    [CreateAssetMenu(fileName = "GraphConfig", menuName = "Config/GraphConfig")]
+    public class GraphConfig : ScriptableObject
     {
-        get
+        [SerializeField] private NodeData[] _nodes;
+        [SerializeField] private EdgeData[] _edges;
+        [SerializeField] private NodeViewData[] _nodeViews;
+        [SerializeField] private EdgeView _edgeViewPrefabs;
+
+        private Dictionary<NodeType, NodeView> _nodeViewPrefabs;
+
+        public NodeData[] Nodes => _nodes;
+        public EdgeData[] Edges => _edges;
+        public EdgeView EdgeViewPrefabs => _edgeViewPrefabs;
+        public Dictionary<NodeType, NodeView> NodeViewPrefabs
         {
-            if(_nodeViewPrefabs == null)
+            get
             {
-                _nodeViewPrefabs = new Dictionary<NodeType, NodeView>();
-                foreach(var nodeView in _nodeViews)
+                if (_nodeViewPrefabs == null)
                 {
-                    _nodeViewPrefabs.Add(nodeView.NodeType, nodeView.NodeViewPrefab);
+                    _nodeViewPrefabs = new Dictionary<NodeType, NodeView>();
+                    foreach (var nodeView in _nodeViews)
+                    {
+                        _nodeViewPrefabs.Add(nodeView.NodeType, nodeView.NodeViewPrefab);
+                    }
                 }
+                return _nodeViewPrefabs;
             }
-            return _nodeViewPrefabs;
         }
     }
 }
