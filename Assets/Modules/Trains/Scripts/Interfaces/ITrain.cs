@@ -15,6 +15,7 @@ namespace Modules.Trains.Interfaces
         INode CurrentNode { get; }
         INode NextNode { get; }
         IMineral Minerals { get; set; }
+        ReactiveProperty<List<IEdge>> Route { get; }
 
         void UpdateMoveSpeed(float moveSpeed);
         void UpdateMiningTimeSeconds(float miningTimeSeconds);

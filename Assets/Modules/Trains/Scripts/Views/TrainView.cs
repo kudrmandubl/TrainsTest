@@ -1,4 +1,7 @@
-﻿using Modules.Common;
+﻿using System;
+using System.Collections.Generic;
+using Modules.Common;
+using Modules.Graph.Interfaces;
 using UnityEngine;
 
 namespace Modules.Trains.Views
@@ -12,6 +15,9 @@ namespace Modules.Trains.Views
 
         public ReactiveProperty<float> MoveSpeed { get; } = new ReactiveProperty<float>();
         public ReactiveProperty<float> MiningTimeSeconds { get; } = new ReactiveProperty<float>();
+        public List<IEdge> Route { get; private set; }
+
+        public Action<IEnumerable<IEdge>> OnRouteChange;
 
         public void UpdateMoveSpeed(float moveSpeed)
         {
@@ -33,6 +39,12 @@ namespace Modules.Trains.Views
         public void UpdateRotation(Vector3 rotation)
         {
             Transform.localEulerAngles = rotation;
+        }
+
+        public void UpdateRoute(List<IEdge> route)
+        {
+            Route = route;
+            OnRouteChange?.Invoke(route);
         }
 
         // При изменениях в инспекторе (только в редакторе)

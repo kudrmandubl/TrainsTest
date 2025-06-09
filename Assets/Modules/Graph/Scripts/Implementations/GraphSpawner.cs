@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Modules.Graph.Configs;
 using Modules.Graph.Interfaces;
 using Modules.Graph.Views;
@@ -42,6 +42,7 @@ namespace Modules.Graph.Implementations
                 nodes.Add(nodeView);
 
                 nodeView.UpdateMultiplier(nodeData.Multiplier);
+                // подписываемся на изменения во view, т.к. нужна возможность через инспектор менять значения для расчётов
                 nodeView.Multiplier.OnValueChanged += node.UpdateMultiplier;
 
                 id++;
@@ -67,8 +68,16 @@ namespace Modules.Graph.Implementations
                 _graph.AddEdge(edge);
 
                 edgeView.UpdateDistance(edgeData.Distance);
+                // подписываемся на изменения во view, т.к. нужна возможность через инспектор менять значения для расчётов
                 edgeView.Distance.OnValueChanged += edge.UpdateDistance;
+
+                edge.IsSelected.OnValueChanged += (isSelected) => UpdateEdgeSelectedMaterial(edgeView, isSelected);
             }
+        }
+
+        private void UpdateEdgeSelectedMaterial(EdgeView edgeView, bool isSelected)
+        {
+            edgeView.UpdateSelectedMaterial(isSelected ? _config.SelectedEdgeMaterial : _config.UnselectedEdgeMaterial);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using DG.Tweening;
 using Modules.Graph.Data;
 using Modules.Graph.Interfaces;
@@ -45,12 +45,12 @@ namespace Modules.Trains.Implementations
             var route = GetNextRoute(train);
             if (route == null)
             {
-                Debug.LogError($"Не найден маршрут для поезда {JsonUtility.ToJson(train)}");
+                Debug.LogError($"РќРµ РЅР°Р№РґРµРЅ РјР°СЂС€СЂСѓС‚ РґР»СЏ РїРѕРµР·РґР° {JsonUtility.ToJson(train)}");
                 return;
             }
 
             train.AssignRoute(route);
-            // на случай, если поезд заспаунился на точке, в которою ему выгоднее всего ехать
+            // РЅР° СЃР»СѓС‡Р°Р№, РµСЃР»Рё РїРѕРµР·Рґ Р·Р°СЃРїР°СѓРЅРёР»СЃСЏ РЅР° С‚РѕС‡РєРµ, РІ РєРѕС‚РѕСЂРѕСЋ РµРјСѓ РІС‹РіРѕРґРЅРµРµ РІСЃРµРіРѕ РµС…Р°С‚СЊ
             if (train.CheckRouteFinished())
             {
                 ProcessNode(train);
@@ -94,7 +94,7 @@ namespace Modules.Trains.Implementations
             NodeType targetNodeType = train.Minerals.Amount.Value > 0 ? NodeType.Base : NodeType.Mine;
             if (!_graph.TypedNodes.TryGetValue(targetNodeType, out var possibleNodes))
             {
-                Debug.LogError($"Нет набора возможных нодов для типа {targetNodeType}");
+                Debug.LogError($"РќРµС‚ РЅР°Р±РѕСЂР° РІРѕР·РјРѕР¶РЅС‹С… РЅРѕРґРѕРІ РґР»СЏ С‚РёРїР° {targetNodeType}");
                 return null;
             }
 
@@ -102,7 +102,7 @@ namespace Modules.Trains.Implementations
 
             foreach (var node in possibleNodes)
             {
-                // TODO: постоянно создают новые перечисления - заменить на пул? 
+                // TODO: РїРѕСЃС‚РѕСЏРЅРЅРѕ СЃРѕР·РґР°СЋС‚ РЅРѕРІС‹Рµ РїРµСЂРµС‡РёСЃР»РµРЅРёСЏ - Р·Р°РјРµРЅРёС‚СЊ РЅР° РїСѓР»? 
                 var route = _graph.GetRoute(train.CurrentNode, node);
 
                 float moveDuration = 0;
@@ -141,7 +141,7 @@ namespace Modules.Trains.Implementations
                 return MineralsUnloadingDuration;
             }
 
-            Debug.LogError($"Не возможно получить время обработки для ноды {JsonUtility.ToJson(node)}");
+            Debug.LogError($"РќРµ РІРѕР·РјРѕР¶РЅРѕ РїРѕР»СѓС‡РёС‚СЊ РІСЂРµРјСЏ РѕР±СЂР°Р±РѕС‚РєРё РґР»СЏ РЅРѕРґС‹ {JsonUtility.ToJson(node)}");
             return 0;
         }
 
@@ -156,7 +156,7 @@ namespace Modules.Trains.Implementations
                 return train.Minerals.Amount.Value * node.Multiplier;
             }
 
-            Debug.LogError($"Не возможно получить время обработки для ноды {JsonUtility.ToJson(node)}");
+            Debug.LogError($"РќРµ РІРѕР·РјРѕР¶РЅРѕ РїРѕР»СѓС‡РёС‚СЊ РІСЂРµРјСЏ РѕР±СЂР°Р±РѕС‚РєРё РґР»СЏ РЅРѕРґС‹ {JsonUtility.ToJson(node)}");
             return 0;
         }
 
@@ -187,17 +187,17 @@ namespace Modules.Trains.Implementations
 
         private float GetLookRotationY(Vector3 characterPosition, Vector3 targetPosition)
         {
-            // Создаем направление на цель, игнорируя вертикаль
+            // РЎРѕР·РґР°РµРј РЅР°РїСЂР°РІР»РµРЅРёРµ РЅР° С†РµР»СЊ, РёРіРЅРѕСЂРёСЂСѓСЏ РІРµСЂС‚РёРєР°Р»СЊ
             Vector3 direction = targetPosition - characterPosition;
-            direction.y = 0; // Ограничиваем вращение только по оси Y
+            direction.y = 0; // РћРіСЂР°РЅРёС‡РёРІР°РµРј РІСЂР°С‰РµРЅРёРµ С‚РѕР»СЊРєРѕ РїРѕ РѕСЃРё Y
 
             if (direction.sqrMagnitude == 0)
             {
-                // Если персонаж уже смотрит прямо на цель или цель совпадает с позицией
+                // Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ СѓР¶Рµ СЃРјРѕС‚СЂРёС‚ РїСЂСЏРјРѕ РЅР° С†РµР»СЊ РёР»Рё С†РµР»СЊ СЃРѕРІРїР°РґР°РµС‚ СЃ РїРѕР·РёС†РёРµР№
                 return 0f;
             }
 
-            // Рассчитываем угол в градусах
+            // Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј СѓРіРѕР» РІ РіСЂР°РґСѓСЃР°С…
             float angleY = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
             return angleY;

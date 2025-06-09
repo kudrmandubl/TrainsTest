@@ -10,6 +10,7 @@ namespace Modules.Graph.Views
         // колдовство для сохранения разделения данных и отображения
         // и при этом выполнения условий задания про возможность через инспектор поменять значения 
         [SerializeField] private float _distance;
+        private MeshRenderer _meshRenderer;
 
         public ReactiveProperty<float> Distance = new ReactiveProperty<float>();
 
@@ -22,6 +23,16 @@ namespace Modules.Graph.Views
         {
             _distance = distance;
             Distance.Value = distance;
+        }
+
+        public void UpdateSelectedMaterial(Material material)
+        {
+            if (!_meshRenderer)
+            {
+                _meshRenderer = GetComponentInChildren<MeshRenderer>();
+            }
+
+            _meshRenderer.material = material;
         }
 
         // При изменениях в инспекторе (только в редакторе)

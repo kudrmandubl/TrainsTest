@@ -1,4 +1,4 @@
-using Modules.Graph.Interfaces;
+﻿using Modules.Graph.Interfaces;
 using Modules.Trains.Configs;
 using Modules.Trains.Interfaces;
 using Modules.Trains.Views;
@@ -46,12 +46,14 @@ namespace Modules.Trains.Implementations
                 TrainView trainView = GameObject.Instantiate(_config.TrainViewPrefab, position, Quaternion.identity, _trainsContainer.Transform);
 
                 trainView.UpdateMoveSpeed(trainData.MoveSpeed); 
-                trainView.MoveSpeed.OnValueChanged += train.UpdateMoveSpeed;
                 trainView.UpdateMiningTimeSeconds(trainData.MiningTimeSeconds);
+                // подписываемся на изменения во view, т.к. нужна возможность через инспектор менять значения для расчётов
+                trainView.MoveSpeed.OnValueChanged += train.UpdateMoveSpeed;
                 trainView.MiningTimeSeconds.OnValueChanged += train.UpdateMiningTimeSeconds;
 
                 train.Position.OnValueChanged += trainView.UpdatePosition;
                 train.Rotation.OnValueChanged += trainView.UpdateRotation;
+                train.Route.OnValueChanged += trainView.UpdateRoute;
 
                 Trains[id] = train;
                 id++;

@@ -85,3 +85,5 @@ MonoBehaviour:
   - _nodeType: 2
     _nodeViewPrefab: {fileID: 8376537259432994044, guid: 576bb19d590619e4782ab650ef72c155, type: 3}
   _edgeViewPrefabs: {fileID: 61429627285184341, guid: 0291dc0b3bd5eef42b7c2704d315f98d, type: 3}
+  _selectedEdgeMaterial: {fileID: 2100000, guid: 97376edcce156bd479ba47c44d2ab721, type: 2}
+  _unselectedEdgeMaterial: {fileID: 2100000, guid: a12c095be2a06c640add87c40457e97e, type: 2}

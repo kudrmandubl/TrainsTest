@@ -19,6 +19,8 @@ namespace Modules.Graph.DI
             Container.BindInstance<EdgesContainer>(_edgesContainer).AsSingle();
 
             Container.Bind<IGraphSpawner>().To<GraphSpawner>().AsSingle();
+
+            Container.Bind<IRouteShower>().To<RouteShower>().AsSingle().NonLazy();
         }
 
     }

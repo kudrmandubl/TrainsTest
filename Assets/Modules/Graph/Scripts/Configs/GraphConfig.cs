@@ -13,11 +13,16 @@ namespace Modules.Graph.Configs
         [SerializeField] private NodeViewData[] _nodeViews;
         [SerializeField] private EdgeView _edgeViewPrefabs;
 
+        [SerializeField] private Material _selectedEdgeMaterial;
+        [SerializeField] private Material _unselectedEdgeMaterial;
+
         private Dictionary<NodeType, NodeView> _nodeViewPrefabs;
 
         public NodeData[] Nodes => _nodes;
         public EdgeData[] Edges => _edges;
         public EdgeView EdgeViewPrefabs => _edgeViewPrefabs;
+        public Material SelectedEdgeMaterial => _selectedEdgeMaterial;
+        public Material UnselectedEdgeMaterial => _unselectedEdgeMaterial;
         public Dictionary<NodeType, NodeView> NodeViewPrefabs
         {
             get

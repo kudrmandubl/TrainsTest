@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Modules.Common;
 using Modules.Graph.Interfaces;
 using Modules.Minerals.Interfaces;
@@ -9,7 +9,6 @@ namespace Modules.Trains.Implementations
 {
     public class Train : ITrain
     {
-        private List<IEdge> _route;
         private int _currentSegmentIndex;
 
         public ReactiveProperty<float> MoveSpeed { get; }
@@ -19,6 +18,7 @@ namespace Modules.Trains.Implementations
         public INode CurrentNode { get; private set; }
         public INode NextNode { get; private set; }
         public IMineral Minerals { get; set; }
+        public ReactiveProperty<List<IEdge>> Route { get; }
 
         public Train(IMineral mineral)
         {
@@ -27,6 +27,7 @@ namespace Modules.Trains.Implementations
             Position = new ReactiveProperty<Vector3>();
             Rotation = new ReactiveProperty<Vector3>();
             Minerals = mineral;
+            Route = new ReactiveProperty<List<IEdge>>();
         }
 
         public void UpdateMoveSpeed(float moveSpeed)
@@ -61,7 +62,8 @@ namespace Modules.Trains.Implementations
 
         public void AssignRoute(IEnumerable<IEdge> route)
         {
-            _route = new List<IEdge>(route);
+            // TODO: убрать создание листа
+            Route.Value = new List<IEdge>(route);
             _currentSegmentIndex = 0;
         }
 
@@ -78,12 +80,12 @@ namespace Modules.Trains.Implementations
 
         public IEdge GetCurrentEdge()
         {
-            return _route[_currentSegmentIndex];
+            return Route.Value[_currentSegmentIndex];
         }
 
         public bool CheckRouteFinished()
         {
-            return _currentSegmentIndex >= _route.Count;
+            return _currentSegmentIndex >= Route.Value.Count;
         }
     }
 }
