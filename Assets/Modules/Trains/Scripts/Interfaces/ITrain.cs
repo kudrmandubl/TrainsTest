@@ -11,6 +11,7 @@ namespace Modules.Trains.Interfaces
         ReactiveProperty<float> MoveSpeed { get; }
         ReactiveProperty<float> MiningTimeSeconds { get; }
         ReactiveProperty<Vector3> Position { get; }
+        ReactiveProperty<Vector3> Rotation { get; }
         INode CurrentNode { get; }
         INode NextNode { get; }
         IMineral Minerals { get; set; }
@@ -18,6 +19,7 @@ namespace Modules.Trains.Interfaces
         void UpdateMoveSpeed(float moveSpeed);
         void UpdateMiningTimeSeconds(float miningTimeSeconds);
         void UpdatePosition(Vector3 position);
+        void UpdateRotation(Vector3 rotation);
         void SetCurrentNode(INode currentNode);
         void SetNextNode(INode nextNode);
 

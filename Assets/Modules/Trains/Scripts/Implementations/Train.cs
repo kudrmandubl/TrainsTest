@@ -15,6 +15,7 @@ namespace Modules.Trains.Implementations
         public ReactiveProperty<float> MoveSpeed { get; }
         public ReactiveProperty<float> MiningTimeSeconds { get; }
         public ReactiveProperty<Vector3> Position { get; }
+        public ReactiveProperty<Vector3> Rotation { get; }
         public INode CurrentNode { get; private set; }
         public INode NextNode { get; private set; }
         public IMineral Minerals { get; set; }
@@ -24,6 +25,7 @@ namespace Modules.Trains.Implementations
             MoveSpeed = new ReactiveProperty<float>();
             MiningTimeSeconds = new ReactiveProperty<float>();
             Position = new ReactiveProperty<Vector3>();
+            Rotation = new ReactiveProperty<Vector3>();
             Minerals = mineral;
         }
 
@@ -40,6 +42,11 @@ namespace Modules.Trains.Implementations
         public void UpdatePosition(Vector3 position)
         {
             Position.Value = position;
+        }
+
+        public void UpdateRotation(Vector3 rotation)
+        {
+            Rotation.Value = rotation;
         }
 
         public void SetCurrentNode(INode currentNode)

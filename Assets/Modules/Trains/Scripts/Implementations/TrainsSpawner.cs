@@ -51,6 +51,7 @@ namespace Modules.Trains.Implementations
                 trainView.MiningTimeSeconds.OnValueChanged += train.UpdateMiningTimeSeconds;
 
                 train.Position.OnValueChanged += trainView.UpdatePosition;
+                train.Rotation.OnValueChanged += trainView.UpdateRotation;
 
                 Trains[id] = train;
                 id++;

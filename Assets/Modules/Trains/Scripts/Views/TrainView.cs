@@ -30,6 +30,11 @@ namespace Modules.Trains.Views
             Transform.position = position;
         }
 
+        public void UpdateRotation(Vector3 rotation)
+        {
+            Transform.localEulerAngles = rotation;
+        }
+
         // При изменениях в инспекторе (только в редакторе)
         private void OnValidate()
         {

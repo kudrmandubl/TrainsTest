@@ -10,6 +10,8 @@ namespace Modules.Trains.Implementations
 {
     public class TrainsLogic : ITrainsLogic
     {
+        private const float RotationDuration = 0.2f;
+
         private const float MineralsUnloadingDuration = 0f;
         private const double MineralsFromMine = 1;
 
@@ -77,9 +79,14 @@ namespace Modules.Trains.Implementations
         private void TrainMovement(ITrain train)
         {
             float duration = train.GetCurrentEdge().Distance / train.MoveSpeed.Value;
-            DOTween.To(() => train.CurrentNode.Position, x => train.Position.Value = x, train.NextNode.Position, duration)
+            DOTween.To(() => train.CurrentNode.Position, x => train.UpdatePosition(x), train.NextNode.Position, duration)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => MoveToNextNode(train));
+
+            float rotationDuration = duration < RotationDuration ? duration : RotationDuration;
+            Vector3 targetRotation = train.Rotation.Value;
+            targetRotation.y = GetLookRotationY(train.CurrentNode.Position, train.NextNode.Position);
+            DOTween.To(() => train.Rotation.Value, x => train.UpdateRotation(x), targetRotation, rotationDuration);
         }
 
         private IEnumerable<IEdge> GetNextRoute(ITrain train)
@@ -176,6 +183,24 @@ namespace Modules.Trains.Implementations
             }
 
             StartMoving(train);
+        }
+
+        private float GetLookRotationY(Vector3 characterPosition, Vector3 targetPosition)
+        {
+            // —оздаем направление на цель, игнориру€ вертикаль
+            Vector3 direction = targetPosition - characterPosition;
+            direction.y = 0; // ќграничиваем вращение только по оси Y
+
+            if (direction.sqrMagnitude == 0)
+            {
+                // ≈сли персонаж уже смотрит пр€мо на цель или цель совпадает с позицией
+                return 0f;
+            }
+
+            // –ассчитываем угол в градусах
+            float angleY = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            return angleY;
         }
     }
 }
