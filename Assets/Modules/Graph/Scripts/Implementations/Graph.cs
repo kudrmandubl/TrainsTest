@@ -14,7 +14,7 @@ namespace Modules.Graph.Implementations
 
         public List<INode> Nodes => _nodes;
         public Dictionary<NodeType, List<INode>> TypedNodes => _typedNodes;
-        public List<IEdge> Edge => _edges;
+        public List<IEdge> Edges => _edges;
 
         public Graph()
         {

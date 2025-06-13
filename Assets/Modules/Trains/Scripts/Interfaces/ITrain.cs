@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Modules.Common;
 using Modules.Graph.Interfaces;
@@ -16,6 +17,8 @@ namespace Modules.Trains.Interfaces
         INode NextNode { get; }
         IMineral Minerals { get; set; }
         ReactiveProperty<List<IEdge>> Route { get; }
+
+        Action<ITrain> OnParamChange { get; set; }
 
         void UpdateMoveSpeed(float moveSpeed);
         void UpdateMiningTimeSeconds(float miningTimeSeconds);

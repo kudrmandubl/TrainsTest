@@ -48,7 +48,7 @@ namespace Modules.Graph.Implementations
                 id++;
             }
 
-            _graph.Edge.Capacity = _config.Edges.Length;
+            _graph.Edges.Capacity = _config.Edges.Length;
             foreach (var edgeData in _config.Edges)
             {
                 Vector3 position = (_config.Nodes[edgeData.NodeIdA].Position + _config.Nodes[edgeData.NodeIdB].Position) * 0.5f;

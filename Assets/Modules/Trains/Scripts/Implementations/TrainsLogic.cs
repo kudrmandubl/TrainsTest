@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Modules.Graph.Data;
 using Modules.Graph.Interfaces;
@@ -20,6 +22,8 @@ namespace Modules.Trains.Implementations
         private IMineralManager _mineralManager;
 
         private RouteSelectionData _tempRouteData;
+        private float _waiter;
+        private Dictionary<ITrain, Tween> _trainCurrentActionTweens;
 
         public TrainsLogic(ITrainsSpawner trainsSpawner, 
             IGraph graph,
@@ -30,6 +34,7 @@ namespace Modules.Trains.Implementations
             _mineralManager = mineralManager;
 
             _tempRouteData = new RouteSelectionData();
+            _trainCurrentActionTweens = new Dictionary<ITrain, Tween>();
         }
 
         public void StartMoving()
@@ -37,6 +42,25 @@ namespace Modules.Trains.Implementations
             foreach (var train in _trainsSpawner.Trains)
             {
                 StartMoving(train);
+            }
+        }
+
+        public void SubscribeToChangeParams()
+        {
+            foreach (var train in _trainsSpawner.Trains)
+            {
+                 train.OnParamChange += RestartMoving;
+            }
+
+            // поменять на общий интерфейс
+            foreach (var node in _graph.Nodes)
+            {
+                node.OnParamChange += RestartAllTrainsMoving;
+            }
+
+            foreach (var edge in _graph.Edges)
+            {
+                edge.OnParamChange += RestartAllTrainsMoving;
             }
         }
 
@@ -53,13 +77,13 @@ namespace Modules.Trains.Implementations
             // на случай, если поезд заспаунился на точке, в которою ему выгоднее всего ехать
             if (train.CheckRouteFinished())
             {
-                ProcessNode(train);
+                ProcessNode(train, false);
                 return;
             }
 
             train.SetNextNode(train.GetNextNode());
 
-            TrainMovement(train);
+            TrainMovement(train, false, MoveToNextNode);
         }
 
         private void MoveToNextNode(ITrain train)
@@ -67,21 +91,32 @@ namespace Modules.Trains.Implementations
             train.MoveToNextEdge();
             if (train.CheckRouteFinished()) 
             {
-                ProcessNode(train);
+                ProcessNode(train, false);
                 return;
             }
 
             train.SetNextNode(train.GetNextNode());
 
-            TrainMovement(train);
+            TrainMovement(train, false, MoveToNextNode);
         }
 
-        private void TrainMovement(ITrain train)
+        private void TrainMovement(ITrain train, bool needContinue, Action<ITrain> onCompleteAction)
         {
-            float duration = train.GetCurrentEdge().Distance / train.MoveSpeed.Value;
-            DOTween.To(() => train.CurrentNode.Position, x => train.UpdatePosition(x), train.NextNode.Position, duration)
+            // процент пройденного пути
+            float pathUncompletedPercent = 1;
+            if (needContinue)
+            {
+                pathUncompletedPercent = (train.NextNode.Position - train.Position.Value).magnitude / (train.NextNode.Position - train.CurrentNode.Position).magnitude;
+            }
+
+            float duration = train.GetCurrentEdge().Distance / train.MoveSpeed.Value * pathUncompletedPercent;
+            var currentActionTween = DOTween.To(() => train.Position.Value, x => train.UpdatePosition(x), train.NextNode.Position, duration)
                 .SetEase(Ease.Linear)
-                .OnComplete(() => MoveToNextNode(train));
+                .OnComplete(() =>
+                {
+                    onCompleteAction?.Invoke(train);
+                });
+            _trainCurrentActionTweens[train] = currentActionTween;
 
             float rotationDuration = duration < RotationDuration ? duration : RotationDuration;
             Vector3 targetRotation = train.Rotation.Value;
@@ -160,12 +195,17 @@ namespace Modules.Trains.Implementations
             return 0;
         }
 
-        private void ProcessNode(ITrain train)
+        private void ProcessNode(ITrain train, bool needContinue)
         {
             float duration = GetNodeDuration(train.CurrentNode, train);
-            float waiter = 0;
-            DOTween.To(() => waiter, x => waiter = x, 1, duration)
+            if (!needContinue)
+            {
+                _waiter = 0;
+            }
+
+            var currentActionTween = DOTween.To(() => _waiter, x => _waiter = x, 1, duration)
                 .OnComplete(() => FinishNodeProcess(train));
+            _trainCurrentActionTweens[train] = currentActionTween;
         }
 
         private void FinishNodeProcess(ITrain train)
@@ -201,6 +241,37 @@ namespace Modules.Trains.Implementations
             float angleY = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
             return angleY;
+        }
+
+        private void RestartMoving(ITrain train)
+        {
+            _trainCurrentActionTweens[train].Kill();
+
+            // определить обрабатывается ли нода
+            if (train.CurrentNode == train.NextNode)
+            {
+                ProcessNode(train, true);
+            }
+            else
+            {
+                // предполагаем, что поезд не может развернуться посреди ребра 
+                // поэтому поезд доезжает до конца ребра и после рассчитывает, что делать дальше
+                TrainMovement(train, true, FinishEdgeAndStartMoving);
+            }
+        }
+
+        private void RestartAllTrainsMoving()
+        {
+            foreach (var train in _trainsSpawner.Trains)
+            {
+                RestartMoving(train);
+            }
+        }
+
+        private void FinishEdgeAndStartMoving(ITrain train)
+        {
+            train.MoveToNextEdge();
+            StartMoving(train);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Modules.Core
             graphSpawner.SpawnGraph();
             trainsSpawner.SpawnTrains();
             trainsLogic.StartMoving();
+            trainsLogic.SubscribeToChangeParams();
             mineralManager.SpawnUI();
         }
     }

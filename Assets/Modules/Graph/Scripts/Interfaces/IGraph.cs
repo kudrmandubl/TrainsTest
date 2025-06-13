@@ -7,7 +7,7 @@ namespace Modules.Graph.Interfaces
     {
         List<INode> Nodes { get; }
         Dictionary<NodeType, List<INode>> TypedNodes { get; }
-        List<IEdge> Edge { get; }
+        List<IEdge> Edges { get; }
         void AddNode(INode node);
         void AddEdge(IEdge edge);
         IEnumerable<IEdge> GetEdgesFrom(INode node);

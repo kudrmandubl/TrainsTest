@@ -1,3 +1,4 @@
+using System;
 using Modules.Common;
 using Modules.Graph.Interfaces;
 
@@ -10,6 +11,8 @@ namespace Modules.Graph.Implementations
         public float Distance { get; private set;  }
         public ReactiveProperty<bool> IsSelected { get; }
 
+        public Action OnParamChange { get; set; }
+
         public Edge(INode nodeA, INode nodeB, float distance)
         {
             NodeA = nodeA;
@@ -21,6 +24,7 @@ namespace Modules.Graph.Implementations
         public void UpdateDistance(float distance)
         {
             Distance = distance;
+            OnParamChange?.Invoke();
         }
 
         public INode GetNeighbor(INode sourceNode)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Modules.Common;
 using Modules.Graph.Interfaces;
 using Modules.Minerals.Interfaces;
@@ -20,6 +21,8 @@ namespace Modules.Trains.Implementations
         public IMineral Minerals { get; set; }
         public ReactiveProperty<List<IEdge>> Route { get; }
 
+        public Action<ITrain> OnParamChange { get; set; }
+
         public Train(IMineral mineral)
         {
             MoveSpeed = new ReactiveProperty<float>();
@@ -33,11 +36,13 @@ namespace Modules.Trains.Implementations
         public void UpdateMoveSpeed(float moveSpeed)
         {
             MoveSpeed.Value = moveSpeed;
+            OnParamChange?.Invoke(this);
         }
 
         public void UpdateMiningTimeSeconds(float miningTimeSeconds)
         {
             MiningTimeSeconds.Value = miningTimeSeconds;
+            OnParamChange?.Invoke(this);
         }
 
         public void UpdatePosition(Vector3 position)
