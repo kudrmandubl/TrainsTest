@@ -18,8 +18,10 @@ namespace Modules.Graph.Implementations
 
         public RouteShower()
         {
+#if UNITY_EDITOR
             // Подписываемся на событие изменения выбора
             Selection.selectionChanged += OnSelectionChanged;
+#endif
 
             SelectRoute += SelectTrainView;
             UnselectRoute += UnselectTrainView;
